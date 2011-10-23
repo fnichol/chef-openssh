@@ -20,7 +20,7 @@
 packages = case node[:platform]
   when "centos","redhat","fedora","scientific"
     %w{openssh-clients openssh}
-  when "arch"
+  when "arch","suse"
     %w{openssh}
   else
     %w{openssh-client openssh-server}
@@ -48,8 +48,20 @@ service "ssh" do
     "fedora" => { "default" => [ :restart, :reload, :status ] },
     "scientific" => { "default" => [ :restart, :reload, :status ] },
     "arch" => { "default" => [ :restart ] },
+    "suse" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action [ :enable, :start ]
 end
 
+case node[:platform]
+when "ubuntu","suse"
+  template "/etc/ssh/sshd_config" do
+    source  "sshd_config.erb"
+    owner   "root"
+    group   "root"
+    mode    "0644"
+
+    notifies :restart, "service[ssh]"
+  end
+end
