@@ -16,9 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default[:openssh][:port]                = [ "22" ]
-default[:openssh][:listen_address]      = [ "0.0.0.0" ]
+default[:openssh][:port]                    = [ "22" ]
+default[:openssh][:listen_address]          = [ "0.0.0.0" ]
 
-default[:openssh][:permit_root_login]   = "yes"
-default[:openssh][:x11_forwarding]      = "no"
+default[:openssh][:permit_root_login]       = "yes"
+default[:openssh][:password_authentication] = "no"
+default[:openssh][:x11_forwarding]          = "no"
 
