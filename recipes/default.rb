@@ -55,7 +55,7 @@ service "ssh" do
 end
 
 case node[:platform]
-when "ubuntu","suse"
+when "ubuntu","suse","centos"
   template "/etc/ssh/sshd_config" do
     source  "sshd_config.erb"
     owner   "root"
