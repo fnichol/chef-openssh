@@ -1,3 +1,5 @@
+# Created by Chef.  MANUAL EDITS WILL BE OVERWRITTEN
+
 #	$OpenBSD: sshd_config,v 1.80 2008/07/02 02:24:18 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
@@ -65,10 +67,9 @@ PermitRootLogin <%= node[:openssh][:permit_root_login] %>
 # Don't read the user's ~/.rhosts and ~/.shosts files
 #IgnoreRhosts yes
 
-# To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
+# Change to no to disable tunnelled clear text passwords
+PasswordAuthentication <%= node[:openssh][:password_authentication] %>
 #PermitEmptyPasswords no
-PasswordAuthentication yes
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes

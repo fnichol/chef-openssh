@@ -1,4 +1,4 @@
-# Package generated configuration file
+# Created by Chef.  MANUAL EDITS WILL BE OVERWRITTEN
 # See the sshd_config(5) manpage for details
 
 # What ports, IPs and protocols we listen for
@@ -51,7 +51,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-#PasswordAuthentication yes
+PasswordAuthentication <%= node[:openssh][:password_authentication] %>
 
 # Kerberos options
 #KerberosAuthentication no
