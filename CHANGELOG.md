@@ -2,6 +2,7 @@
 
 * Adding attribute for MaxStartups
 * Addresses Foodcritic warnings
+* Moves node attribute lookups from the templates to the recipe
 
 ### 0.8.2
 
