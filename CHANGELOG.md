@@ -1,6 +1,7 @@
 ### 0.8.3
 
 * Adding attribute for MaxStartups
+* Addresses Foodcritic warnings
 
 ### 0.8.2
 
