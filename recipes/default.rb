@@ -18,7 +18,7 @@
 #
 
 packages = case node['platform']
-  when 'centos','redhat','fedora','scientific'
+  when 'centos','redhat','fedora','scientific','amazon'
     %w{openssh-clients openssh}
   when 'arch','suse'
     %w{openssh}
@@ -32,7 +32,7 @@ end
 
 service 'ssh' do
   case node['platform']
-  when 'centos','redhat','fedora','arch','scientific'
+  when 'centos','redhat','fedora','arch','scientific','amazon'
     service_name 'sshd'
   else
     service_name 'ssh'
@@ -55,7 +55,7 @@ service 'ssh' do
 end
 
 case node['platform']
-when 'ubuntu','suse','centos'
+when 'ubuntu','suse','centos','scientific','amazon','fedora','arch','redhat'
   template '/etc/ssh/sshd_config' do
     source  'sshd_config.erb'
     owner   'root'
