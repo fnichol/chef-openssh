@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-packages = case node[:platform]
+packages = case node['platform']
   when 'centos','redhat','fedora','scientific'
     %w{openssh-clients openssh}
   when 'arch','suse'
@@ -31,7 +31,7 @@ packages.each do |pkg|
 end
 
 service 'ssh' do
-  case node[:platform]
+  case node['platform']
   when 'centos','redhat','fedora','arch','scientific'
     service_name 'sshd'
   else
@@ -54,7 +54,7 @@ service 'ssh' do
   action [ :enable, :start ]
 end
 
-case node[:platform]
+case node['platform']
 when 'ubuntu','suse','centos'
   template '/etc/ssh/sshd_config' do
     source  'sshd_config.erb'
