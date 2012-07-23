@@ -3,12 +3,12 @@
 # See the sshd_config(5) manpage for details
 
 # What ports, IPs and protocols we listen for
-<% node[:openssh][:port].each do |port| -%>
+<% @ports.each do |port| -%>
 Port <%= port %>
 <% end -%>
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
-<% node[:openssh][:listen_address].each do |address| -%>
+<% @listen_addresses.each do |address| -%>
 ListenAddress <%= address %>
 <% end -%>
 Protocol 2
@@ -29,7 +29,7 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin <%= node[:openssh][:permit_root_login] %>
+PermitRootLogin <%= @permit_root_login %>
 StrictModes yes
 
 RSAAuthentication yes
@@ -53,7 +53,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-PasswordAuthentication <%= node[:openssh][:password_authentication] %>
+PasswordAuthentication <%= @password_authentication %>
 
 # Kerberos options
 #KerberosAuthentication no
@@ -65,7 +65,7 @@ PasswordAuthentication <%= node[:openssh][:password_authentication] %>
 #GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 
-X11Forwarding <%= node[:openssh][:x11_forwarding] %>
+X11Forwarding <%= @x11_forwarding %>
 X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes

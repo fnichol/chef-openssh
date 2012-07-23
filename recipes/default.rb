@@ -63,10 +63,15 @@ when 'ubuntu','suse','centos','scientific','amazon','fedora','arch','redhat'
     mode    '0644'
 
     variables(
+      :ports => node['openssh']['port'],
+      :listen_addresses => node['openssh']['listen_address'],
+      :permit_root_login => node['openssh']['permit_root_login'],
+      :password_authentication => node['openssh']['password_authentication'],
+      :x11_forwarding => node['openssh']['x11_forwarding'],
       :maxstartups_start => node['openssh']['maxstartups']['start'],
       :maxstartups_rate => node['openssh']['maxstartups']['rate'],
       :maxstartups_full => node['openssh']['maxstartups']['full']
-   )
+    )
 
     notifies :restart, 'service[ssh]'
   end

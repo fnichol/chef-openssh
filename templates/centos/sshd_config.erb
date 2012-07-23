@@ -13,12 +13,12 @@
 # default value.
 
 # What ports, IPs and protocols we listen for
-<% node[:openssh][:port].each do |port| -%>
+<% @ports.each do |port| -%>
 Port <%= port %>
 <% end -%>
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
-<% node[:openssh][:listen_address].each do |address| -%>
+<% @listen_addresses.each do |address| -%>
 ListenAddress <%= address %>
 <% end -%>
 
@@ -46,7 +46,7 @@ SyslogFacility AUTHPRIV
 # Authentication:
 
 #LoginGraceTime 2m
-PermitRootLogin <%= node[:openssh][:permit_root_login] %>
+PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -68,7 +68,7 @@ PermitRootLogin <%= node[:openssh][:permit_root_login] %>
 #IgnoreRhosts yes
 
 # Change to no to disable tunnelled clear text passwords
-PasswordAuthentication <%= node[:openssh][:password_authentication] %>
+PasswordAuthentication <%= @password_authentication %>
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
@@ -112,7 +112,7 @@ AcceptEnv XMODIFIERS
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
-X11Forwarding <%= node[:openssh][:x11_forwarding] %>
+X11Forwarding <%= @x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
