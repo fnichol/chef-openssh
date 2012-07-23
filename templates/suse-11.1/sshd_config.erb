@@ -115,9 +115,10 @@ X11Forwarding <%= node[:openssh][:x11_forwarding] %>
 #ClientAliveCountMax 3
 #UseDNS yes
 #PidFile /var/run/sshd.pid
-#MaxStartups 10
 #PermitTunnel no
 #ChrootDirectory none
+
+MaxStartups <%=@maxstartups_start%>:<%=@maxstartups_rate%>:<%=@maxstartups_full%>
 
 # no default banner path
 #Banner none

@@ -62,6 +62,12 @@ when "ubuntu","suse","centos"
     group   "root"
     mode    "0644"
 
+    variables(
+      :maxstartups_start => node['openssh']['maxstartups']['start'],
+      :maxstartups_rate => node['openssh']['maxstartups']['rate'],
+      :maxstartups_full => node['openssh']['maxstartups']['full']
+   )
+
     notifies :restart, "service[ssh]"
   end
 end
