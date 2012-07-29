@@ -33,7 +33,7 @@ StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-#AuthorizedKeysFile	%h/.ssh/authorized_keys
+<% if !@authorized_keys %>#<%end%>AuthorizedKeysFile <%= @authorized_keys_file %>
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes

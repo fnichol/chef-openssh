@@ -70,7 +70,9 @@ when 'ubuntu','suse','centos','scientific','amazon','fedora','arch','redhat'
       :x11_forwarding => node['openssh']['x11_forwarding'],
       :maxstartups_start => node['openssh']['maxstartups']['start'],
       :maxstartups_rate => node['openssh']['maxstartups']['rate'],
-      :maxstartups_full => node['openssh']['maxstartups']['full']
+      :maxstartups_full => node['openssh']['maxstartups']['full'],
+      :authorized_keys => node['openssh']['authorized_keys']['enabled'],
+      :authorized_keys_file => node['openssh']['authorized_keys']['file']
     )
 
     notifies :restart, 'service[ssh]'

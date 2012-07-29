@@ -16,12 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default['openssh']['port']                    = [ '22' ]
-default['openssh']['listen_address']          = [ '0.0.0.0' ]
 
-default['openssh']['permit_root_login']       = 'yes'
-default['openssh']['x11_forwarding']          = 'no'
-default['openssh']['password_authentication'] = 'yes'
-default['openssh']['maxstartups']['start']    = 10
-default['openssh']['maxstartups']['rate']     = 30
-default['openssh']['maxstartups']['full']     = 60
+default['openssh']['port']							= [ '22' ]
+default['openssh']['listen_address']				= [ '0.0.0.0' ]
+
+default['openssh']['permit_root_login']				= 'yes'
+default['openssh']['x11_forwarding']				= 'no'
+default['openssh']['password_authentication']		= 'yes'
+default['openssh']['maxstartups']['start']			= 10
+default['openssh']['maxstartups']['rate']			= 30
+default['openssh']['maxstartups']['full']			= 60
+
+default['openssh']['authorized_keys']['enabled']	= false
+default['openssh']['authorized_keys']['file']		= '%h/.ssh/authorized_keys'
