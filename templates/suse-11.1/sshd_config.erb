@@ -1,3 +1,5 @@
+# Created by Chef.  MANUAL EDITS WILL BE OVERWRITTEN
+
 #	$OpenBSD: sshd_config,v 1.80 2008/07/02 02:24:18 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
@@ -10,11 +12,11 @@
 # possible, but leave them commented.  Uncommented options change a
 # default value.
 
-<% node[:openssh][:port].each do |port| -%>
+<% @ports.each do |port| -%>
 Port <%= port %>
 <% end -%>
 #AddressFamily any
-<% node[:openssh][:listen_address].each do |address| -%>
+<% @listen_addresses.each do |address| -%>
 ListenAddress <%= address %>
 <% end -%>
 #ListenAddress ::
@@ -42,7 +44,7 @@ Protocol 2
 # Authentication:
 
 #LoginGraceTime 2m
-PermitRootLogin <%= node[:openssh][:permit_root_login] %>
+PermitRootLogin <%= @permit_root_login %>
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -62,7 +64,7 @@ PermitRootLogin <%= node[:openssh][:permit_root_login] %>
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-PasswordAuthentication no
+PasswordAuthentication <%= @password_authentication %>
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
@@ -99,7 +101,7 @@ UsePAM yes
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
-X11Forwarding <%= node[:openssh][:x11_forwarding] %>
+X11Forwarding <%= @x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PrintMotd yes
@@ -113,9 +115,10 @@ X11Forwarding <%= node[:openssh][:x11_forwarding] %>
 #ClientAliveCountMax 3
 #UseDNS yes
 #PidFile /var/run/sshd.pid
-#MaxStartups 10
 #PermitTunnel no
 #ChrootDirectory none
+
+MaxStartups <%=@maxstartups_start%>:<%=@maxstartups_rate%>:<%=@maxstartups_full%>
 
 # no default banner path
 #Banner none

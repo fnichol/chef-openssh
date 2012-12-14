@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 
-packages = case node[:platform]
-  when "centos","redhat","fedora","scientific"
+packages = case node['platform']
+  when 'centos','redhat','fedora','scientific','amazon'
     %w{openssh-clients openssh}
-  when "arch","suse"
+  when 'arch','suse'
     %w{openssh}
   else
     %w{openssh-client openssh-server}
@@ -30,38 +30,49 @@ packages.each do |pkg|
   package pkg
 end
 
-service "ssh" do
-  case node[:platform]
-  when "centos","redhat","fedora","arch","scientific"
-    service_name "sshd"
+service 'ssh' do
+  case node['platform']
+  when 'centos','redhat','fedora','arch','scientific','amazon'
+    service_name 'sshd'
   else
-    service_name "ssh"
+    service_name 'ssh'
   end
   supports value_for_platform(
-    "debian" => { "default" => [ :restart, :reload, :status ] },
-    "ubuntu" => {
-      "8.04" => [ :restart, :reload ],
-      "default" => [ :restart, :reload, :status ]
+    'debian' => { 'default' => [ :restart, :reload, :status ] },
+    'ubuntu' => {
+      '8.04' => [ :restart, :reload ],
+      'default' => [ :restart, :reload, :status ]
     },
-    "centos" => { "default" => [ :restart, :reload, :status ] },
-    "redhat" => { "default" => [ :restart, :reload, :status ] },
-    "fedora" => { "default" => [ :restart, :reload, :status ] },
-    "scientific" => { "default" => [ :restart, :reload, :status ] },
-    "arch" => { "default" => [ :restart ] },
-    "suse" => { "default" => [ :restart, :reload, :status ] },
-    "default" => { "default" => [:restart, :reload ] }
+    'centos' => { 'default' => [ :restart, :reload, :status ] },
+    'redhat' => { 'default' => [ :restart, :reload, :status ] },
+    'fedora' => { 'default' => [ :restart, :reload, :status ] },
+    'scientific' => { 'default' => [ :restart, :reload, :status ] },
+    'arch' => { 'default' => [ :restart ] },
+    'suse' => { 'default' => [ :restart, :reload, :status ] },
+    'default' => { 'default' => [:restart, :reload ] }
   )
   action [ :enable, :start ]
 end
 
-case node[:platform]
-when "ubuntu","suse"
-  template "/etc/ssh/sshd_config" do
-    source  "sshd_config.erb"
-    owner   "root"
-    group   "root"
-    mode    "0644"
+case node['platform']
+when 'ubuntu','suse','centos','scientific','amazon','fedora','arch','redhat'
+  template '/etc/ssh/sshd_config' do
+    source  'sshd_config.erb'
+    owner   'root'
+    group   'root'
+    mode    '0644'
 
-    notifies :restart, "service[ssh]"
+    variables(
+      :ports => node['openssh']['port'],
+      :listen_addresses => node['openssh']['listen_address'],
+      :permit_root_login => node['openssh']['permit_root_login'],
+      :password_authentication => node['openssh']['password_authentication'],
+      :x11_forwarding => node['openssh']['x11_forwarding'],
+      :maxstartups_start => node['openssh']['maxstartups']['start'],
+      :maxstartups_rate => node['openssh']['maxstartups']['rate'],
+      :maxstartups_full => node['openssh']['maxstartups']['full']
+    )
+
+    notifies :restart, 'service[ssh]'
   end
 end

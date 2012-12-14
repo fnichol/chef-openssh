@@ -5,21 +5,22 @@
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
 
-# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+# This sshd was compiled with PATH=/usr/local/bin:/bin:/usr/bin
 
 # The strategy used for options in the default sshd_config shipped with
 # OpenSSH is to specify options with their default value where
 # possible, but leave them commented.  Uncommented options change a
 # default value.
 
+# What ports, IPs and protocols we listen for
 <% @ports.each do |port| -%>
 Port <%= port %>
 <% end -%>
-#AddressFamily any
+# Use these options to restrict which interfaces/protocols sshd will bind to
+#ListenAddress ::
 <% @listen_addresses.each do |address| -%>
 ListenAddress <%= address %>
 <% end -%>
-#ListenAddress ::
 
 # Disable legacy (protocol version 1) support in the server for new
 # installations. In future the default will change to require explicit
@@ -39,6 +40,7 @@ Protocol 2
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
+SyslogFacility AUTHPRIV
 #LogLevel INFO
 
 # Authentication:
@@ -52,6 +54,8 @@ PermitRootLogin <%= @permit_root_login %>
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 #AuthorizedKeysFile	.ssh/authorized_keys
+#AuthorizedKeysCommand none
+#AuthorizedKeysCommandRunAs nobody
 
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no
@@ -63,29 +67,28 @@ PermitRootLogin <%= @permit_root_login %>
 # Don't read the user's ~/.rhosts and ~/.shosts files
 #IgnoreRhosts yes
 
-# To disable tunneled clear text passwords, change to no here!
+# Change to no to disable tunnelled clear text passwords
 PasswordAuthentication <%= @password_authentication %>
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
+ChallengeResponseAuthentication no
 
 # Kerberos options
 #KerberosAuthentication no
 #KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
 #KerberosGetAFSToken no
+#KerberosUseKuserok yes
 
 # GSSAPI options
 #GSSAPIAuthentication no
+GSSAPIAuthentication yes
 #GSSAPICleanupCredentials yes
-
-# Set this to 'yes' to enable support for the deprecated 'gssapi' authentication
-# mechanism to OpenSSH 3.8p1. The newer 'gssapi-with-mic' mechanism is included
-# in this release. The use of 'gssapi' is deprecated due to the presence of 
-# potential man-in-the-middle attacks, which 'gssapi-with-mic' is not susceptible to.
-#GSSAPIEnableMITMAttack no
- 
+GSSAPICleanupCredentials yes
+#GSSAPIStrictAcceptorCheck yes
+#GSSAPIKeyExchange no
 
 # Set this to 'yes' to enable PAM authentication, account processing, 
 # and session processing. If this is enabled, PAM authentication will 
@@ -96,11 +99,19 @@ PasswordAuthentication <%= @password_authentication %>
 # If you just want the PAM account and session checks to run without
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
+#UsePAM no
 UsePAM yes
+
+# Accept locale-related environment variables
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
 
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
+#X11Forwarding no
 X11Forwarding <%= @x11_forwarding %>
 #X11DisplayOffset 10
 #X11UseLocalhost yes
@@ -113,6 +124,7 @@ X11Forwarding <%= @x11_forwarding %>
 #Compression delayed
 #ClientAliveInterval 0
 #ClientAliveCountMax 3
+#ShowPatchLevel no
 #UseDNS yes
 #PidFile /var/run/sshd.pid
 #PermitTunnel no
@@ -124,16 +136,10 @@ MaxStartups <%=@maxstartups_start%>:<%=@maxstartups_rate%>:<%=@maxstartups_full%
 #Banner none
 
 # override default of no subsystems
-Subsystem	sftp	/usr/lib64/ssh/sftp-server
-
-# This enables accepting locale enviroment variables LC_* LANG, see sshd_config(5).
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES 
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT 
-AcceptEnv LC_IDENTIFICATION LC_ALL
+Subsystem	sftp	/usr/libexec/openssh/sftp-server
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
 #	X11Forwarding no
 #	AllowTcpForwarding no
 #	ForceCommand cvs server
-UseDNS no
