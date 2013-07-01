@@ -98,7 +98,7 @@ PasswordAuthentication <%= @password_authentication %>
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
-#AllowAgentForwarding yes
+AllowAgentForwarding <%= @allow_agent_forwarding %>
 #AllowTcpForwarding yes
 #GatewayPorts no
 X11Forwarding <%= @x11_forwarding %>

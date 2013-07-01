@@ -25,3 +25,4 @@ default['openssh']['password_authentication'] = 'yes'
 default['openssh']['maxstartups']['start']    = 10
 default['openssh']['maxstartups']['rate']     = 30
 default['openssh']['maxstartups']['full']     = 60
+default['openssh']['allow_agent_forwarding']  = 'no'
