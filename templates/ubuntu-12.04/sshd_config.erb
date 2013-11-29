@@ -91,4 +91,6 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
-AllowAgentForwarding <%= @allow_agent_forwarding %>
+<% @directives.sort_by { |key, val| key }.each do |directive, value| -%>
+<%= "#{directive} #{value}" %>
+<% end -%>

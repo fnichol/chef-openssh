@@ -98,7 +98,7 @@ PasswordAuthentication <%= @password_authentication %>
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
-AllowAgentForwarding <%= @allow_agent_forwarding %>
+#AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
 X11Forwarding <%= @x11_forwarding %>
@@ -137,3 +137,7 @@ AcceptEnv LC_IDENTIFICATION LC_ALL
 #	AllowTcpForwarding no
 #	ForceCommand cvs server
 UseDNS no
+
+<% @directives.sort_by { |key, val| key }.each do |directive, value| -%>
+<%= "#{directive} #{value}" %>
+<% end -%>

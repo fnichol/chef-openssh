@@ -71,7 +71,7 @@ when 'ubuntu','suse','centos','scientific','amazon','fedora','arch','redhat'
       :maxstartups_start => node['openssh']['maxstartups']['start'],
       :maxstartups_rate => node['openssh']['maxstartups']['rate'],
       :maxstartups_full => node['openssh']['maxstartups']['full'],
-      :allow_agent_forwarding => node['openssh']['allow_agent_forwarding']
+      :directives => node['openssh']['directives']
     )
 
     notifies :restart, 'service[ssh]'

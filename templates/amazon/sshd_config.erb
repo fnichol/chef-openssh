@@ -108,7 +108,7 @@ AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
 AcceptEnv XMODIFIERS
 
-AllowAgentForwarding <%= @allow_agent_forwarding %>
+#AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
@@ -142,3 +142,7 @@ Subsystem	sftp	/usr/libexec/openssh/sftp-server
 #	X11Forwarding no
 #	AllowTcpForwarding no
 #	ForceCommand cvs server
+
+<% @directives.sort_by { |key, val| key }.each do |directive, value| -%>
+<%= "#{directive} #{value}" %>
+<% end -%>
