@@ -142,3 +142,7 @@ Subsystem	sftp	/usr/libexec/openssh/sftp-server
 #	X11Forwarding no
 #	AllowTcpForwarding no
 #	ForceCommand cvs server
+
+<% @directives.sort_by { |key, val| key }.each do |directive, value| -%>
+<%= "#{directive} #{value}" %>
+<% end -%>
