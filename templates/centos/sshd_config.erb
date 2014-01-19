@@ -53,7 +53,7 @@ PermitRootLogin <%= @permit_root_login %>
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes
-#AuthorizedKeysFile	.ssh/authorized_keys
+<% if !@authorized_keys %>#<%end%>AuthorizedKeysFile <%= @authorized_keys_file %>
 #AuthorizedKeysCommand none
 #AuthorizedKeysCommandRunAs nobody
 
